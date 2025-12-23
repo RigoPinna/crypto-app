@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={`${googleSans.variable} antialiased`}>{children}</body>
+			<body className={`${googleSans.variable} antialiased max-w-4xl ml-auto mr-auto min-h-screen`}>{children}</body>
 		</html>
 	);
 }
