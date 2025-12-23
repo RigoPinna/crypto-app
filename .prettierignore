@@ -1,0 +1,51 @@
+# Ignore node modules and lock files
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# Ingore Next.js fileds builded
+.next/
+out/
+
+# Ignore build directories
+dist/
+build/
+
+# Ignore environment files
+.env
+.env.*  # Incluye .env.local, .env.production, etc.
+
+# Ignore cache and log files
+.cache/
+*.log
+
+# Salidas temporales o del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración o documentación que no necesitan formateo
+public/
+coverage/
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.ico
+*.webp
+
+# Evita formatear estilos generados por Tailwind JIT o CSS externo
+**/globals.css
+**/tailwind.css
+**/vendor/**
+
+# Evita formatear archivos estáticos
+static/
+
+# Archivos que Prettier no necesita tocar directamente
+*.lock
+*.snap
+*.min.*
+
+# Ignorar cambios en ciertos tipos de archivos (opcional)
+*.md  # si no quieres formatear markdown
