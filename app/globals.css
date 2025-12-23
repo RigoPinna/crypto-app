@@ -1,6 +1,10 @@
 @import "tailwindcss";
 
-@theme inline {
+@theme {
+  --crypto-color-green: #1bbf9a;
+  --crypto-color-gray: #d8e0e8;
+  --crypto-color-yellow: #ecff8c;
+  --crypto-color-black: #282828;
   --font-google: var(--font-google-sans);
 }
 
