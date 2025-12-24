@@ -1,15 +1,47 @@
 import Image from 'next/image';
-import { PRICE_CHART, SINGLE_CRYPTO_MOCK } from '../__mocks__/cryptoData';
-import { Chip, DescriptionText, ExploreLinkSection, Header, PriceChart } from '../components/client';
-import { Icon } from '../components/icons';
+import { ChartSkeleton, Chip, DescriptionText, ExploreLinkSection, Header } from '../components/client';
+import { Metadata } from 'next';
+import { CRYPTO_API } from '../server';
+import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
+import Chart from '../components/server/feature/CryptoDetailsPage/Chart';
+type TParams = Promise<{ id: string }>;
 
-const CryptoDetailsPage = () => {
-	const crypto = SINGLE_CRYPTO_MOCK;
-	const chart = PRICE_CHART;
-	const chartData = chart.prices.map(([timestamp, price]) => ({
-		time: new Date(timestamp).toLocaleTimeString(),
-		price,
-	}));
+export async function generateMetadata({ params }: { params: TParams }): Promise<Metadata> {
+	const resolvedParams = await params;
+	if (!resolvedParams.id)
+		return {
+			title: `Crypto Details | CryptoApp`,
+		};
+	const data = await CRYPTO_API.getCryptoDetailsById(resolvedParams.id, { cache: 'no-store' });
+	if (!data.success || !data.data) return notFound();
+
+	const crypto = { ...data.data };
+	return {
+		title: `${crypto.name} | CryptoApp`,
+		description: crypto.description.en,
+		openGraph: {
+			title: `${crypto.name} | CryptoApp`,
+			description: `${crypto.description.en.slice(0, 150)}...`,
+			siteName: 'CryptoApp',
+			images: [
+				{
+					url: crypto.image.large,
+				},
+			],
+			type: 'profile',
+		},
+	};
+}
+const CryptoDetailsPage = async ({ params }: { params: TParams }) => {
+	const resolvedParams = await params;
+
+	if (!resolvedParams.id) return <p>Invalid Crypto ID</p>;
+
+	const data = await CRYPTO_API.getCryptoDetailsById(resolvedParams.id, { cache: 'no-store' });
+	if (!data.success || !data.data) return notFound();
+
+	const crypto = { ...data.data };
 
 	return (
 		<>
@@ -26,7 +58,9 @@ const CryptoDetailsPage = () => {
 					</p>
 				</section>
 				<section>
-					<PriceChart data={chartData} />
+					<Suspense fallback={<ChartSkeleton />}>
+						<Chart id={resolvedParams.id} />
+					</Suspense>
 				</section>
 				<section className='border-t border-t-crypto-black-200 pb-2 pt-4'>
 					<div className='grid grid-cols-2 gap-y-4 text-sm'>
