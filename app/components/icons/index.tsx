@@ -29,8 +29,14 @@ const Wind = ({ className = 'w-8 h-auto' }: TIconType) => (
 		<path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5' d='M19 15.5h2'></path>
 	</svg>
 );
+const ArrowUp = ({ className = 'w-4 h-auto' }: TIconType) => (
+	<svg xmlns='http://www.w3.org/2000/svg' className={className} fill='none' viewBox='0 0 13 13'>
+		<path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5' d='M3.25.9s6.938-.542 7.915.435.435 7.915.435 7.915m-.85-7.5-10 10'></path>
+	</svg>
+);
 export const Icon = {
 	Brand,
 	ArrowRight,
+	ArrowUp,
 	Wind,
 };

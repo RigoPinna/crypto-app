@@ -1,0 +1,13 @@
+.btnShowMore {
+	display: none;
+}
+
+.descriptionText {
+	display: -webkit-box;
+	-webkit-line-clamp: var(--line-clamp); /* number of line */
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+.btnShowMore {
+	display: inline;
+}
