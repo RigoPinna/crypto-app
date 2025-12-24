@@ -1,4 +1,5 @@
 'use client';
+import { TCryptoList } from '@/app/interfaces';
 import { List } from '../../common';
 import { Icon } from '@/app/components/icons';
 const CRYPTO_LIST_MOCK = [
@@ -571,10 +572,13 @@ const CRYPTO_LIST_MOCK = [
 		last_updated: '2025-12-23T16:17:23.581Z',
 	},
 ];
-export const CryptoList = () => {
+type TCryptoListProps = {
+	cryptos: TCryptoList;
+};
+export const CryptoList = ({ cryptos }: TCryptoListProps) => {
 	return (
 		<List.Content title='All Cryptos' type='column'>
-			{CRYPTO_LIST_MOCK.map(crypto => (
+			{cryptos.map(crypto => (
 				<List.Item
 					key={crypto.symbol}
 					title={crypto.name}
