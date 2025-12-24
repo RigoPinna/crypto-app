@@ -20,7 +20,7 @@ export const CryptoList = ({ cryptos }: TCryptoListProps) => {
 						key={crypto.symbol + i}
 						title={crypto.name}
 						subTitle={crypto.symbol}
-						link={`/${crypto.symbol}`}
+						link={`/${crypto.id}`}
 						iconUrl={crypto.image}
 						isLink
 						endContent={
