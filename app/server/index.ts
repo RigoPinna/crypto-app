@@ -1,1 +1,1 @@
-export * from './getCryptoList';
+export * from './CRYPO_API';
