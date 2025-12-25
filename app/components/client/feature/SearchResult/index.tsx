@@ -2,19 +2,19 @@
 import { Coin } from '@/app/interfaces';
 import { CRYPTO_API } from '@/app/server';
 import { useEffect, useState } from 'react';
-import { List } from '../../common';
+import { List, Spinner } from '../../common';
 import { Icon } from '@/app/components/icons';
 import { useSearchParams } from 'next/navigation';
 import { NotFoundSearch } from '../NotFoundSearch';
 
 export const SearchResult = () => {
 	const searchParams = useSearchParams();
+	const [isLoading, setIsLoading] = useState(true);
 	const term = searchParams.get('term') || '';
-	const [result, setResult] = useState<Coin[]>([]);
+	const [result, setResult] = useState<Coin[]>();
 	useEffect(() => {
 		const controller = new AbortController();
 		if (!term) return;
-
 		CRYPTO_API.searchCrypto(term, {
 			signal: controller.signal,
 		})
@@ -25,10 +25,21 @@ export const SearchResult = () => {
 			})
 			.catch(err => {
 				console.error(err);
+			})
+			.finally(() => {
+				setIsLoading(false);
 			});
 		return () => controller.abort();
 	}, [term]);
-	if (result.length <= 0) return <NotFoundSearch />;
+
+	if (isLoading)
+		return (
+			<div className='mt-8 flex flex-col items-center justify-center w-full'>
+				<Spinner />
+				<p className='text-xs text-crypto-black-500'>Loading...</p>
+			</div>
+		);
+	if (!result) return <NotFoundSearch />;
 	return (
 		<div className='mt-8'>
 			<List.Content title={`${result.length} Crypto found for ${decodeURIComponent(term)}`} type='column'>

@@ -21,7 +21,7 @@ export const SearchForm = ({ classNameForm = '' }: TSearchResultProps) => {
 			term: encodeURIComponent(formData.search),
 		});
 
-		router.push(`/search?${params.toString()}`);
+		router.replace(`/search?${params.toString()}`);
 	};
 	return (
 		<form className={`w-full ${classNameForm}`} onSubmit={onSubmit}>
