@@ -1,0 +1,50 @@
+'use client';
+import { Coin } from '@/app/interfaces';
+import { CRYPTO_API } from '@/app/server';
+import { memo, useEffect, useState } from 'react';
+import { List } from '../../common';
+import { Icon } from '@/app/components/icons';
+
+type TSearchResultProps = {
+	term: string;
+};
+export const SearchResult = memo(({ term }: TSearchResultProps) => {
+	const [result, setResult] = useState<Coin[]>([]);
+	useEffect(() => {
+		const controller = new AbortController();
+		CRYPTO_API.searchCrypto(term, {
+			signal: controller.signal,
+		})
+			.then(resp => {
+				if (resp.success) {
+					setResult(resp.data?.coins || []);
+				}
+			})
+			.catch(err => {
+				console.error(err);
+			});
+		return () => controller.abort();
+	}, [term]);
+	return (
+		<>
+			<List.Content title={`${result.length} Crypto found for ${decodeURIComponent(term)}`} type='column'>
+				{result.map(coin => (
+					<List.Item
+						key={coin.id}
+						title={coin.name}
+						subTitle={coin.symbol}
+						iconUrl={coin.thumb}
+						isLink
+						link={`/${coin.id}`}
+						endContent={
+							<div className='flex flex-row gap-x-2 items-center'>
+								<Icon.ArrowRight />
+							</div>
+						}
+					/>
+				))}
+			</List.Content>
+		</>
+	);
+});
+SearchResult.displayName = 'SearchResult';
