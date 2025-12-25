@@ -1,17 +1,20 @@
 'use client';
 import { Coin } from '@/app/interfaces';
 import { CRYPTO_API } from '@/app/server';
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { List } from '../../common';
 import { Icon } from '@/app/components/icons';
+import { useSearchParams } from 'next/navigation';
+import { NotFoundSearch } from '../NotFoundSearch';
 
-type TSearchResultProps = {
-	term: string;
-};
-export const SearchResult = memo(({ term }: TSearchResultProps) => {
+export const SearchResult = () => {
+	const searchParams = useSearchParams();
+	const term = searchParams.get('term') || '';
 	const [result, setResult] = useState<Coin[]>([]);
 	useEffect(() => {
 		const controller = new AbortController();
+		if (!term) return;
+
 		CRYPTO_API.searchCrypto(term, {
 			signal: controller.signal,
 		})
@@ -25,8 +28,9 @@ export const SearchResult = memo(({ term }: TSearchResultProps) => {
 			});
 		return () => controller.abort();
 	}, [term]);
+	if (result.length <= 0) return <NotFoundSearch />;
 	return (
-		<>
+		<div className='mt-8'>
 			<List.Content title={`${result.length} Crypto found for ${decodeURIComponent(term)}`} type='column'>
 				{result.map(coin => (
 					<List.Item
@@ -44,7 +48,6 @@ export const SearchResult = memo(({ term }: TSearchResultProps) => {
 					/>
 				))}
 			</List.Content>
-		</>
+		</div>
 	);
-});
-SearchResult.displayName = 'SearchResult';
+};

@@ -8,7 +8,7 @@ export function Input({ icon, className = '', ...props }: CryptoInputProps) {
 	return (
 		<div
 			className={`flex items-center gap-2
-        w-full max-w-md
+        w-full
         rounded-full
         bg-white
         px-3 py-1
