@@ -15,9 +15,9 @@ export const CryptoList = ({ cryptos }: TCryptoListProps) => {
 	return (
 		<>
 			<List.Content title='All Cryptos' type='column'>
-				{currentPage.data.map((crypto, i) => (
+				{currentPage.data.map(crypto => (
 					<List.Item
-						key={crypto.symbol + i}
+						key={crypto.id}
 						title={crypto.name}
 						subTitle={crypto.symbol}
 						link={`/${crypto.id}`}
