@@ -1,10 +1,11 @@
 import Image from 'next/image';
-import { ChartSkeleton, Chip, DescriptionText, ExploreLinkSection, Header } from '../components/client';
+import { BackButton, ChartSkeleton, Chip, DescriptionText, ExploreLinkSection, Header } from '../components/client';
 import { Metadata } from 'next';
 import { CRYPTO_API } from '../server';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import Chart from '../components/server/feature/CryptoDetailsPage/Chart';
+import { Icon } from '../components/icons';
 type TParams = Promise<{ id: string }>;
 
 export async function generateMetadata({ params }: { params: TParams }): Promise<Metadata> {
@@ -45,7 +46,7 @@ const CryptoDetailsPage = async ({ params }: { params: TParams }) => {
 
 	return (
 		<>
-			<Header />
+			<Header startContent={<BackButton />} centerContent={<Icon.Brand />} />
 			<main className='pt-16 pb-6 px-3 flex flex-col gap-y-6'>
 				<section className='w-full'>
 					<div className='flex flex-row gap-x-0.5 items-center'>
