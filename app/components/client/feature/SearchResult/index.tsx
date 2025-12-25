@@ -9,8 +9,8 @@ import { NotFoundSearch } from '../NotFoundSearch';
 
 export const SearchResult = () => {
 	const searchParams = useSearchParams();
-	const [isLoading, setIsLoading] = useState(true);
 	const term = searchParams.get('term') || '';
+	const [isLoading, setIsLoading] = useState(term !== '');
 	const [result, setResult] = useState<Coin[]>();
 	useEffect(() => {
 		const controller = new AbortController();
