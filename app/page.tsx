@@ -1,7 +1,9 @@
+import { Suspense } from 'react';
 import { Header } from './components/client/common';
 import { Metadata } from 'next';
+import { ListSkeleton, SearchForm } from './components/client';
 import { List } from './components/server';
-import { Suspense } from 'react';
+import { Icon } from './components/icons';
 
 export async function generateMetadata(): Promise<Metadata> {
 	return {
@@ -25,14 +27,16 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const HomePage = () => {
 	return (
-		<main className='w-full min-h-screen flex flex-col'>
-			<Header />
-			<section className='pt-16 pb-6 px-3'>
-				<Suspense fallback={<p>Loading cryptocurrencies...</p>}>
-					<List />
-				</Suspense>
-			</section>
-		</main>
+		<Suspense fallback={<ListSkeleton />}>
+			<main className='w-full min-h-screen flex flex-col'>
+				<Header startContent={<Icon.Brand />} endContent={<SearchForm />} />
+				<section className='pt-16 pb-6 px-3'>
+					<Suspense fallback={<ListSkeleton />}>
+						<List />
+					</Suspense>
+				</section>
+			</main>
+		</Suspense>
 	);
 };
 
