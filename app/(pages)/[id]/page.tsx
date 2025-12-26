@@ -10,13 +10,17 @@ type TParams = Promise<{ id: string }>;
 
 export async function generateMetadata({ params }: { params: TParams }): Promise<Metadata> {
 	const resolvedParams = await params;
-	if (!resolvedParams.id)
+	if (!resolvedParams.id) {
 		return {
 			title: `Crypto Details | CryptoApp`,
 		};
+	}
 	const data = await CRYPTO_API.getCryptoDetailsById(resolvedParams.id, { cache: 'no-store' });
-	if (!data.success || !data.data) return notFound();
-
+	if (!data.success || !data.data) {
+		return {
+			title: `Crypto Details | CryptoApp`,
+		};
+	}
 	const crypto = { ...data.data };
 	return {
 		title: `${crypto.name} | CryptoApp`,
