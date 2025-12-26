@@ -40,7 +40,7 @@ const CryptoDetailsPage = async ({ params }: { params: TParams }) => {
 	if (!resolvedParams.id) return <p>Invalid Crypto ID</p>;
 
 	const data = await CRYPTO_API.getCryptoDetailsById(resolvedParams.id, { cache: 'no-store' });
-	if (!data.success || !data.data) return notFound();
+	if (!data.success || !data.data) return <>{JSON.stringify(data.data)}</>;
 
 	const crypto = { ...data.data };
 
