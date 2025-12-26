@@ -1,6 +1,6 @@
 'use client';
 import { Coin } from '@/app/interfaces';
-import { CRYPTO_API } from '@/app/server';
+import { CRYPTO_API } from '@/app/services';
 import { useEffect, useState } from 'react';
 import { List, Spinner } from '../../common';
 import { Icon } from '@/app/components/icons';
