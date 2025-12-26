@@ -35,9 +35,16 @@ export const CryptoList = ({ cryptos }: TCryptoListProps) => {
 						link={`/${crypto.id}`}
 						iconUrl={crypto.image}
 						isLink
+						body={
+							<div className='block md:hidden'>
+								{crypto.current_price && <span className='text-crypto-black font-semibold text-xs'>$ {crypto.current_price.toFixed(2)} USD</span>}
+							</div>
+						}
 						endContent={
 							<div className='flex flex-row gap-x-2 items-center'>
-								{crypto.current_price && <span className='text-crypto-black font-semibold text-xs'>$ {crypto.current_price.toFixed(2)} USD</span>}
+								<span className='hidden md:block'>
+									{crypto.current_price && <span className='text-crypto-black font-semibold text-xs'>$ {crypto.current_price.toFixed(2)} USD</span>}
+								</span>
 								<Icon.ArrowRight />
 							</div>
 						}
