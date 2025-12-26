@@ -46,7 +46,7 @@ const CryptoDetailsPage = async ({ params }: { params: TParams }) => {
 	if (!data.success || !data.data)
 		return (
 			<>
-				{JSON.stringify(data.data)} {resolvedParams.id}
+				{JSON.stringify(data.data)} {resolvedParams.id} {data.status}
 			</>
 		);
 
