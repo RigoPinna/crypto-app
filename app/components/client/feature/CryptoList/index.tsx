@@ -1,8 +1,8 @@
 'use client';
 import { Ref } from 'react';
-import { List, Spinner } from '../../common';
+import { Button, List, Spinner } from '../../common';
 import { Icon } from '@/app/components/icons';
-import { usePagination } from '@/app/hooks';
+import { useLayoutControl, usePagination } from '@/app/hooks';
 import { ICrypto, TCryptoList } from '@/app/interfaces';
 
 type TCryptoListProps = {
@@ -11,10 +11,22 @@ type TCryptoListProps = {
 
 export const CryptoList = ({ cryptos }: TCryptoListProps) => {
 	const { refElement, currentPage, totalPages } = usePagination<ICrypto>(cryptos);
-
+	const [layout, setLayout] = useLayoutControl();
 	return (
 		<>
-			<List.Content title='All Cryptos' type='column'>
+			<List.Content
+				title='All Cryptos'
+				type={layout}
+				endContent={
+					<div className='flex flex-row'>
+						<Button variant={layout === 'column' ? 'primary' : 'light'} onClick={() => setLayout('column')}>
+							<Icon.LayoutColumn />
+						</Button>
+						<Button variant={layout === 'grid' ? 'primary' : 'light'} onClick={() => setLayout('grid')}>
+							<Icon.LayoutGrid />
+						</Button>
+					</div>
+				}>
 				{currentPage.data.map(crypto => (
 					<List.Item
 						key={crypto.id}

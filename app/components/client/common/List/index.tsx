@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { Children, isValidElement, MouseEvent, ReactElement } from 'react';
 
 type TListItemProps = {
@@ -30,17 +31,19 @@ const Item = ({ title, subTitle = '', iconUrl, onClick = () => {}, isLink = fals
 
 	if (isLink) {
 		return (
-			<Link href={link} className={className}>
-				<ItemBody title={title} subTitle={subTitle} iconUrl={iconUrl} />
-				{endContent && endContent}
-			</Link>
+			<motion.li layout>
+				<Link href={link} className={className}>
+					<ItemBody title={title} subTitle={subTitle} iconUrl={iconUrl} />
+					{endContent && endContent}
+				</Link>
+			</motion.li>
 		);
 	}
 	return (
-		<li className={className} onClick={onClick} role='button'>
+		<motion.li layout className={className} onClick={onClick} role='button'>
 			<ItemBody title={title} subTitle={subTitle} iconUrl={iconUrl} />
 			{endContent && endContent}
-		</li>
+		</motion.li>
 	);
 };
 
@@ -48,8 +51,9 @@ type TListContentProps = {
 	title?: string;
 	children: ReactElement<typeof Item> | ReactElement<typeof Item>[];
 	type: 'grid' | 'column';
+	endContent?: ReactElement;
 };
-const Content = ({ title, children, type = 'column' }: TListContentProps) => {
+const Content = ({ title, children, type = 'column', endContent }: TListContentProps) => {
 	Children.forEach(children, child => {
 		if (!isValidElement(child) || child.type !== Item) {
 			throw new Error('List.Content only uses List.Item as children');
@@ -58,8 +62,27 @@ const Content = ({ title, children, type = 'column' }: TListContentProps) => {
 	const listClassName = type === 'grid' ? 'w-full grid grid-cols-2 gap-4' : 'w-full flex flex-col gap-y-2';
 	return (
 		<div className='flex flex-col gap-y-2'>
-			{title && <h3 className='text-md font-medium'>{title}</h3>}
-			<ul className={listClassName}>{children}</ul>
+			<div className='flex justify-between'>
+				{title && (
+					<div className='flex-1'>
+						<h3 className='text-md font-medium'>{title}</h3>
+					</div>
+				)}
+				{endContent && <div className='flex flex-1 justify-end'>{endContent}</div>}
+			</div>
+
+			<motion.ul
+				layout
+				transition={{
+					layout: {
+						type: 'spring',
+						stiffness: 300,
+						damping: 30,
+					},
+				}}
+				className={listClassName}>
+				{children}
+			</motion.ul>
 		</div>
 	);
 };
