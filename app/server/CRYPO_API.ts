@@ -2,7 +2,7 @@ import { ICryptoChartData, ICryptoDetails, ISearchResult, TCryptoList, TResponse
 
 const getCryptoList = async (config?: RequestInit | undefined): TResponseAPI<TCryptoList> => {
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/coins/markets?vs_currency=usd&per_page=250`, config);
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/coins/markets?vs_currency=usd&per_page=250&x_cg_pro_api_key=${process.env.NEXT_PUBLIC_API_KEY}`, config);
 		if (!response.ok) return { status: response.status, success: false, data: [] };
 
 		const data = (await response.json()) as TCryptoList;
@@ -15,7 +15,7 @@ const getCryptoList = async (config?: RequestInit | undefined): TResponseAPI<TCr
 const getCryptoDetailsById = async (id: string, config?: RequestInit | undefined): TResponseAPI<ICryptoDetails | null> => {
 	try {
 		const response = await fetch(
-			`${process.env.NEXT_PUBLIC_API_BASE_URL}/coins/${id}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false`,
+			`${process.env.NEXT_PUBLIC_API_BASE_URL}/coins/${id}?localization=false&tickers=false&market_data=true&community_data=false&developer_data=false&x_cg_pro_api_key=${process.env.NEXT_PUBLIC_API_KEY}`,
 			config,
 		);
 		if (!response.ok) return { status: response.status, success: false, data: null };
@@ -29,7 +29,10 @@ const getCryptoDetailsById = async (id: string, config?: RequestInit | undefined
 };
 const getChartData = async (id: string, lastDays: number, config?: RequestInit | undefined): TResponseAPI<ICryptoChartData | null> => {
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/coins/${id}/market_chart?vs_currency=usd&days=${lastDays}`, config);
+		const response = await fetch(
+			`${process.env.NEXT_PUBLIC_API_BASE_URL}/coins/${id}/market_chart?vs_currency=usd&days=${lastDays}&x_cg_pro_api_key=${process.env.NEXT_PUBLIC_API_KEY}`,
+			config,
+		);
 		if (!response.ok) return { status: response.status, success: false, data: null };
 
 		const data = (await response.json()) as ICryptoChartData;
@@ -42,7 +45,7 @@ const getChartData = async (id: string, lastDays: number, config?: RequestInit |
 };
 const searchCrypto = async (term: string, config?: RequestInit | undefined): TResponseAPI<ISearchResult | null> => {
 	try {
-		const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/search?query=${term}`, config);
+		const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/search?query=${term}&x_cg_pro_api_key=${process.env.NEXT_PUBLIC_API_KEY}`, config);
 		if (!response.ok) return { status: response.status, success: false, data: null };
 
 		const data = (await response.json()) as ISearchResult;
