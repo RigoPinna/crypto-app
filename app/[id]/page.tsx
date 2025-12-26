@@ -1,22 +1,35 @@
 import Image from 'next/image';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { CRYPTO_API } from '@/app/server';
 import { BackButton, ChartSkeleton, Chip, DescriptionText, ExploreLinkSection, Header } from '@/app/components/client';
 import { Icon } from '@/app/components/icons';
 import { Chart } from '@/app/components/server';
+import { notFound } from 'next/navigation';
 type TParams = Promise<{ id: string }>;
 
 export async function generateMetadata({ params }: { params: TParams }): Promise<Metadata> {
 	const resolvedParams = await params;
-	if (!resolvedParams.id)
+	if (!resolvedParams.id) {
 		return {
 			title: `Crypto Details | CryptoApp`,
 		};
-	const data = await CRYPTO_API.getCryptoDetailsById(resolvedParams.id, { cache: 'no-store' });
-	if (!data.success || !data.data) return notFound();
-
+	}
+	const data = await CRYPTO_API.getCryptoDetailsById(resolvedParams.id, {
+		headers: {
+			'User-Agent': 'my-nextjs-app',
+			Accept: 'application/json',
+		},
+		// 👇 CLAVE
+		next: {
+			revalidate: 300, // 5 min
+		},
+	});
+	if (!data.success || !data.data) {
+		return {
+			title: `Crypto Details | CryptoApp`,
+		};
+	}
 	const crypto = { ...data.data };
 	return {
 		title: `${crypto.name} | CryptoApp`,
@@ -39,8 +52,16 @@ const CryptoDetailsPage = async ({ params }: { params: TParams }) => {
 
 	if (!resolvedParams.id) return <p>Invalid Crypto ID</p>;
 
-	const data = await CRYPTO_API.getCryptoDetailsById(resolvedParams.id, { cache: 'no-store' });
-	if (!data.success || !data.data) return notFound();
+	const data = await CRYPTO_API.getCryptoDetailsById(resolvedParams.id, {
+		headers: {
+			'User-Agent': 'my-nextjs-app',
+			Accept: 'application/json',
+		},
+		next: {
+			revalidate: 300, // 5 min
+		},
+	});
+	if (!data.success || !data.data) notFound();
 
 	const crypto = { ...data.data };
 

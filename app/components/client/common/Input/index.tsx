@@ -25,7 +25,7 @@ export function Input({ startContent, endContent, className = '', ...props }: Cr
 			<input
 				className='
           flex
-          flex-1
+          w-full
           bg-transparent
           outline-none
           text-slate-700

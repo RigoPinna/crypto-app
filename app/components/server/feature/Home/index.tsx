@@ -3,6 +3,10 @@ import { CRYPTO_API } from '@/app/server';
 
 export const List = async () => {
 	const resp = await CRYPTO_API.getCryptoList({
+		headers: {
+			'User-Agent': 'my-nextjs-app',
+			Accept: 'application/json',
+		},
 		cache: 'force-cache',
 	});
 	if (!resp.success) return <NotFound />;
