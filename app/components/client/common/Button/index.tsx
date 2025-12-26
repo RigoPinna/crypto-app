@@ -10,12 +10,15 @@ type Ripple = {
 	id: number;
 };
 
+type ButtonVariant = 'primary' | 'light';
+
 type ButtonProps = {
 	children: React.ReactNode;
 	onClick?: () => void;
+	variant?: ButtonVariant;
 };
 
-export function Button({ children, onClick }: ButtonProps) {
+export function Button({ children, onClick, variant = 'primary' }: ButtonProps) {
 	const [ripples, setRipples] = useState<Ripple[]>([]);
 
 	const createRipple = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -41,27 +44,42 @@ export function Button({ children, onClick }: ButtonProps) {
 		onClick?.();
 	};
 
+	const isLight = variant === 'light';
+
 	return (
 		<motion.button
 			whileTap={{ scale: 0.96 }}
 			transition={{ type: 'spring', stiffness: 400, damping: 25 }}
 			onClick={createRipple}
-			className='
+			className={`
         relative
         overflow-hidden
         rounded-xl
-        bg-crypto-black
         px-4
         py-2
-        font-medium
-        text-white
         text-xs
-        shadow-md
+        font-medium
         outline-none
-        focus-visible:ring-2
-        focus-visible:ring-blue-400
         hover:cursor-pointer
-      '>
+        focus-visible:ring-2
+        ${
+					isLight
+						? `
+            bg-transparent
+            text-crypto-black
+            focus-visible:ring-gray-300
+			hover:bg-gray-100
+			transition
+			duration-300
+          `
+						: `
+            bg-crypto-black
+            text-white
+            shadow-md
+            focus-visible:ring-blue-400
+          `
+				}
+      `}>
 			{children}
 
 			<AnimatePresence>
@@ -79,7 +97,7 @@ export function Button({ children, onClick }: ButtonProps) {
 							width: ripple.size,
 							height: ripple.size,
 							borderRadius: '50%',
-							backgroundColor: 'white',
+							backgroundColor: isLight ? 'rgba(0,0,0,0.15)' : 'white',
 							pointerEvents: 'none',
 						}}
 					/>
