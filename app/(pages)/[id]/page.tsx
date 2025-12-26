@@ -1,11 +1,11 @@
 import Image from 'next/image';
-import { BackButton, ChartSkeleton, Chip, DescriptionText, ExploreLinkSection, Header } from '../components/client';
 import { Metadata } from 'next';
-import { CRYPTO_API } from '../server';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import Chart from '../components/server/feature/CryptoDetailsPage/Chart';
-import { Icon } from '../components/icons';
+import { CRYPTO_API } from '@/app/server';
+import { BackButton, ChartSkeleton, Chip, DescriptionText, ExploreLinkSection, Header } from '@/app/components/client';
+import { Icon } from '@/app/components/icons';
+import { Chart } from '@/app/components/server';
 type TParams = Promise<{ id: string }>;
 
 export async function generateMetadata({ params }: { params: TParams }): Promise<Metadata> {
@@ -48,7 +48,7 @@ const CryptoDetailsPage = async ({ params }: { params: TParams }) => {
 		<>
 			<Header startContent={<BackButton />} centerContent={<Icon.Brand />} />
 			<main className='pt-16 pb-6 px-3 flex flex-col gap-y-6'>
-				<section className='w-full'>
+				<section id='header' className='w-full'>
 					<div className='flex flex-row gap-x-0.5 items-center'>
 						<Image src={crypto.image.large} alt={crypto.name} width={34} height={34} className='rounded-full' />
 						<h1 className='text-lg font-semibold text-crypto-black'>{crypto.name}</h1>
@@ -58,12 +58,12 @@ const CryptoDetailsPage = async ({ params }: { params: TParams }) => {
 						{crypto.market_data.price_change_percentage_24h.toFixed(2)}%
 					</p>
 				</section>
-				<section>
+				<section id='priceChart'>
 					<Suspense fallback={<ChartSkeleton />}>
 						<Chart id={resolvedParams.id} />
 					</Suspense>
 				</section>
-				<section className='border-t border-t-crypto-black-200 pb-2 pt-4'>
+				<section id='detailsTable' className='border-t border-t-crypto-black-200 pb-2 pt-4'>
 					<div className='grid grid-cols-2 gap-y-4 text-sm'>
 						<div className='border-b border-b-crypto-black-200 pb-2'>
 							<p className='text-gray-500 uppercase'>24H Vol</p>
@@ -83,19 +83,23 @@ const CryptoDetailsPage = async ({ params }: { params: TParams }) => {
 						</div>
 					</div>
 				</section>
-				<section>
-					<h3 className='text-lg font-semibold text-crypto-black mb-1'>About {crypto.name}</h3>
-					<DescriptionText className='text-xs' text={crypto.description.en} />
-				</section>
+				{crypto?.description?.en && (
+					<section id='description'>
+						<h3 className='text-lg font-semibold text-crypto-black mb-1'>About {crypto.name}</h3>
+						<DescriptionText className='text-xs' text={crypto.description.en} />
+					</section>
+				)}
 
-				<section>
-					<h3 className='text-lg font-semibold text-crypto-black mb-1'>Categories</h3>
-					<div className='flex flex-row flex-wrap gap-x-1 gap-y-2'>
-						{crypto.categories.map((category, i) => (
-							<Chip key={`${crypto.id}${i}category`} text={category} />
-						))}
-					</div>
-				</section>
+				{crypto.categories?.length > 0 && (
+					<section>
+						<h3 className='text-lg font-semibold text-crypto-black mb-1'>Categories</h3>
+						<div className='flex flex-row flex-wrap gap-x-1 gap-y-2'>
+							{crypto.categories.map((category, i) => (
+								<Chip key={`${crypto.id}${i}category`} text={category} />
+							))}
+						</div>
+					</section>
+				)}
 				<ExploreLinkSection links={crypto?.links?.blockchain_site || []} />
 			</main>
 		</>
