@@ -45,10 +45,23 @@ const ArrowUp = ({ className = 'w-4 h-auto' }: TIconType) => (
 		<path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5' d='M3.25.9s6.938-.542 7.915.435.435 7.915.435 7.915m-.85-7.5-10 10'></path>
 	</svg>
 );
+const SearchCrypto = ({ className = 'w-4 h-auto' }: TIconType) => (
+	<svg xmlns='http://www.w3.org/2000/svg' className={className} fill='none' viewBox='0 0 24 24'>
+		<path stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5' d='M17.5 17.5 22 22'></path>
+		<path stroke='currentColor' strokeLinejoin='round' strokeWidth='1.5' d='M20 11a9 9 0 1 0-18 0 9 9 0 0 0 18 0Z'></path>
+		<path
+			stroke='currentColor'
+			strokeLinecap='round'
+			strokeLinejoin='round'
+			strokeWidth='1.5'
+			d='M9.125 14V8M11 8V6.5m0 9V14m-1.875-3h3.75m0 0c.621 0 1.125.504 1.125 1.125v.75c0 .621-.504 1.125-1.125 1.125H8m4.875-3C13.496 11 14 10.496 14 9.875v-.75C14 8.504 13.496 8 12.875 8H8'></path>
+	</svg>
+);
 export const Icon = {
 	Brand,
 	ArrowRight,
 	ArrowLeft,
 	ArrowUp,
+	SearchCrypto,
 	Wind,
 };
