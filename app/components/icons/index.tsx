@@ -57,11 +57,38 @@ const SearchCrypto = ({ className = 'w-4 h-auto' }: TIconType) => (
 			d='M9.125 14V8M11 8V6.5m0 9V14m-1.875-3h3.75m0 0c.621 0 1.125.504 1.125 1.125v.75c0 .621-.504 1.125-1.125 1.125H8m4.875-3C13.496 11 14 10.496 14 9.875v-.75C14 8.504 13.496 8 12.875 8H8'></path>
 	</svg>
 );
+const LayoutGrid = ({ className = 'w-4 h-auto' }: TIconType) => (
+	<svg xmlns='http://www.w3.org/2000/svg' className={className} fill='none' viewBox='0 0 24 24'>
+		<path
+			stroke='currentColor'
+			strokeLinecap='round'
+			strokeLinejoin='round'
+			strokeWidth='1.5'
+			d='M20.109 3.891C21.5 5.282 21.5 7.521 21.5 12c0 4.478 0 6.718-1.391 8.109S16.479 21.5 12 21.5c-4.478 0-6.718 0-8.109-1.391S2.5 16.479 2.5 12c0-4.478 0-6.718 1.391-8.109S7.521 2.5 12 2.5c4.478 0 6.718 0 8.109 1.391'></path>
+		<path stroke='currentColor' strokeLinecap='round' strokeWidth='1.5' d='M21.5 12h-19M12 2.5v19'></path>
+	</svg>
+);
+const LayoutColumn = ({ className = 'w-4 h-auto' }: TIconType) => (
+	<svg className={className} viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+		<path
+			d='M20.1088 20.1088C18.7175 21.5 16.4783 21.5 12 21.5C7.52166 21.5 5.28248 21.5 3.89124 20.1088C2.5 18.7175 2.5 16.4783 2.5 12C2.5 7.52166 2.5 5.28248 3.89124 3.89124C5.28249 2.5 7.52166 2.5 12 2.5C16.4783 2.5 18.7175 2.5 20.1088 3.89124C21.5 5.28249 21.5 7.52166 21.5 12C21.5 16.4783 21.5 18.7175 20.1088 20.1088Z'
+			stroke='currentColor'
+			strokeWidth='1.5'
+			strokeLinecap='round'
+			strokeLinejoin='round'
+		/>
+		<path d='M21.5 8.5H2.5' stroke='currentColor' strokeWidth='1.5' />
+		<path d='M21.5 15.5H2.5' stroke='currentColor' strokeWidth='1.5' />
+	</svg>
+);
+
 export const Icon = {
 	Brand,
 	ArrowRight,
 	ArrowLeft,
 	ArrowUp,
 	SearchCrypto,
+	LayoutGrid,
+	LayoutColumn,
 	Wind,
 };
