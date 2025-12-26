@@ -4,7 +4,7 @@ import { CRYPTO_API } from '@/app/server';
 type TChartProps = {
 	id: string;
 };
-const Chart = async ({ id }: TChartProps) => {
+export const Chart = async ({ id }: TChartProps) => {
 	const resp = await CRYPTO_API.getChartData(id, 31);
 	if (!resp.success && !resp.data) return <></>;
 	const chart = { ...resp.data };
@@ -16,5 +16,3 @@ const Chart = async ({ id }: TChartProps) => {
 	}));
 	return <PriceChart data={chartData} />;
 };
-
-export default Chart;

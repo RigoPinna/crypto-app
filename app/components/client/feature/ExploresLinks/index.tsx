@@ -10,6 +10,7 @@ export const ExploreLinkSection = ({ links }: TExploreLinkSectionProps) => {
 	const onOpenLink = (url: string) => {
 		window.open(url, '_blank');
 	};
+	if (links.length <= 0) return <></>;
 	return (
 		<section>
 			<h3 className='text-lg font-semibold text-crypto-black mb-1'>Explorers Link</h3>

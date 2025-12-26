@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
-import { BackButton, Header, SearchForm, SearchResult, Spinner } from '../components/client';
-import { Icon } from '../components/icons';
+import { BackButton, Header, SearchForm, SearchResult, Spinner } from '@/app/components/client';
+import { Icon } from '@/app/components/icons';
 
 const SearchPage = () => {
 	return (
