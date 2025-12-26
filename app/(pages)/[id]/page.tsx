@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
-import { CRYPTO_API } from '@/app/server';
+import { CRYPTO_API } from '@/app/services';
 import { BackButton, ChartSkeleton, Chip, DescriptionText, ExploreLinkSection, Header } from '@/app/components/client';
 import { Icon } from '@/app/components/icons';
 import { Chart } from '@/app/components/server';

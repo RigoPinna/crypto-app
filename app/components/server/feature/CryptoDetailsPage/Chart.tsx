@@ -1,5 +1,5 @@
 import { PriceChart } from '@/app/components/client';
-import { CRYPTO_API } from '@/app/server';
+import { CRYPTO_API } from '@/app/services';
 
 type TChartProps = {
 	id: string;

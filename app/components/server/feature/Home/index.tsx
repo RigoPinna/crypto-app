@@ -1,5 +1,5 @@
 import { CryptoList, NotFound } from '@/app/components/client';
-import { CRYPTO_API } from '@/app/server';
+import { CRYPTO_API } from '@/app/services';
 
 export const List = async () => {
 	const resp = await CRYPTO_API.getCryptoList({
