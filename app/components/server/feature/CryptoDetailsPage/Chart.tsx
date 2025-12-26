@@ -5,7 +5,15 @@ type TChartProps = {
 	id: string;
 };
 export const Chart = async ({ id }: TChartProps) => {
-	const resp = await CRYPTO_API.getChartData(id, 31);
+	const resp = await CRYPTO_API.getChartData(id, 31, {
+		headers: {
+			'User-Agent': 'my-nextjs-app',
+			Accept: 'application/json',
+		},
+		next: {
+			revalidate: 300, // 5 min
+		},
+	});
 	if (!resp.success && !resp.data) return <></>;
 	const chart = { ...resp.data };
 	if (!chart?.prices) return <></>;
