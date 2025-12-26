@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { CRYPTO_API } from '@/app/server';
 import { BackButton, ChartSkeleton, Chip, DescriptionText, ExploreLinkSection, Header } from '@/app/components/client';
@@ -15,7 +14,7 @@ export async function generateMetadata({ params }: { params: TParams }): Promise
 			title: `Crypto Details | CryptoApp`,
 		};
 	}
-	const data = await CRYPTO_API.getCryptoDetailsById(resolvedParams.id, { cache: 'no-store' });
+	const data = await CRYPTO_API.getCryptoDetailsById(resolvedParams.id);
 	if (!data.success || !data.data) {
 		return {
 			title: `Crypto Details | CryptoApp`,
@@ -44,7 +43,12 @@ const CryptoDetailsPage = async ({ params }: { params: TParams }) => {
 	if (!resolvedParams.id) return <p>Invalid Crypto ID</p>;
 
 	const data = await CRYPTO_API.getCryptoDetailsById(resolvedParams.id, { cache: 'no-store' });
-	if (!data.success || !data.data) return <>{JSON.stringify(data.data)}</>;
+	if (!data.success || !data.data)
+		return (
+			<>
+				{JSON.stringify(data.data)} {resolvedParams.id}
+			</>
+		);
 
 	const crypto = { ...data.data };
 
